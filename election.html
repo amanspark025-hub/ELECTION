@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class Representative Election</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f4f5;
+      --surface: #ffffff;
+      --border: #e4e4e7;
+      --text: #18181b;
+      --text-2: #71717a;
+      --text-3: #a1a1aa;
+      --accent: #2563eb;
+      --accent-bg: #eff6ff;
+      --accent-text: #1d4ed8;
+      --success-bg: #f0fdf4;
+      --success-text: #15803d;
+      --success-border: #bbf7d0;
+      --danger-bg: #fef2f2;
+      --danger-text: #b91c1c;
+      --danger-border: #fecaca;
+      --boy-color: #2563eb;
+      --girl-color: #db2777;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container {
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .school-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      margin-bottom: 10px;
+    }
+    .page-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .page-sub {
+      font-size: 14px;
+      color: var(--text-2);
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-2);
+      margin-bottom: 1rem;
+    }
+
+    /* Progress */
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .progress-label { font-size: 14px; color: var(--text-2); }
+    .progress-count { font-size: 14px; font-weight: 600; color: var(--text); }
+    .progress-track {
+      height: 10px;
+      background: var(--bg);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #60a5fa);
+      border-radius: 99px;
+      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* Alerts */
+    .alert {
+      display: none;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      margin-bottom: 1rem;
+      border: 1px solid;
+    }
+    .alert.visible { display: flex; align-items: flex-start; gap: 10px; }
+    .alert-error { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
+    .alert-success { background: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
+    .alert svg { flex-shrink: 0; margin-top: 1px; }
+
+    /* Form */
+    .field { margin-bottom: 1.25rem; }
+    .field:last-child { margin-bottom: 0; }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .field-hint { font-size: 12px; color: var(--text-3); font-weight: 400; margin-left: 4px; }
+    input[type="number"], select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--surface);
+      outline: none;
+      transition: border-color 0.15s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    input[type="number"]:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 40px;
+    }
+
+    .vote-divider {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .vote-group {
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+    .vote-group.boy { border-top: 3px solid var(--boy-color); }
+    .vote-group.girl { border-top: 3px solid var(--girl-color); }
+    .vote-group label { color: var(--text); font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 1.25rem;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-submit:hover { background: #1d4ed8; }
+    .btn-submit:active { transform: scale(0.99); }
+    .btn-submit:disabled { background: var(--border); color: var(--text-3); cursor: not-allowed; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 4px;
+      margin-bottom: 1rem;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: inherit;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-2);
+      transition: background 0.15s, color 0.15s;
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Stat grid */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat-val { font-size: 26px; font-weight: 600; color: var(--text); line-height: 1; }
+    .stat-lbl { font-size: 12px; color: var(--text-2); margin-top: 4px; }
+
+    /* Results bars */
+    .result-section-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .result-section-title.boy { color: var(--boy-color); }
+    .result-section-title.girl { color: var(--girl-color); }
+    .candidate-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .c-name {
+      font-size: 14px;
+      font-weight: 500;
+      min-width: 80px;
+      color: var(--text);
+    }
+    .c-bar-wrap {
+      flex: 1;
+      height: 22px;
+      background: var(--bg);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .c-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+      min-width: 0;
+    }
+    .c-votes {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      min-width: 28px;
+      text-align: right;
+    }
+    .leading-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid var(--success-border);
+      margin-left: 4px;
+    }
+    .results-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 480px) {
+      .results-split { grid-template-columns: 1fr; }
+      .vote-divider { grid-template-columns: 1fr; }
+    }
+
+    /* Voter register chips */
+    .chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-2);
+      transition: background 0.2s, color 0.2s;
+    }
+    .chip.voted {
+      background: var(--success-bg);
+      color: var(--success-text);
+      border-color: var(--success-border);
+    }
+    .chips-legend {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-2);
+      margin-bottom: 12px;
+    }
+    .chips-legend span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .leg-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+    .leg-dot.voted { background: var(--success-bg); border-color: var(--success-border); }
+
+    /* Admin */
+    .pin-row { display: flex; gap: 8px; }
+    .pin-row input { flex: 1; }
+    .btn-outline {
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-outline:hover { background: var(--bg); }
+    .btn-danger {
+      width: 100%;
+      padding: 11px;
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1px solid var(--danger-border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    .btn-danger:hover { background: #fee2e2; }
+    .admin-note { font-size: 12px; color: var(--text-3); text-align: center; margin-top: 8px; }
+    .unlocked-note {
+      font-size: 13px;
+      color: var(--success-text);
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 1rem;
+    }
+
+    /* Closed state */
+    .election-closed {
+      text-align: center;
+      padding: 2rem;
+    }
+    .closed-icon { font-size: 40px; margin-bottom: 12px; }
+    .closed-title { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .closed-sub { font-size: 14px; color: var(--text-2); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="page-header">
+    <div class="school-label">Academic Year 2024–25</div>
+    <h1 class="page-title">Class Representative<br>Election</h1>
+    <p class="page-sub">Each student gets one vote — boy rep &amp; girl rep</p>
+  </header>
+
+  <div id="alert-box" class="alert" role="alert"></div>
+
+  <!-- Vote progress -->
+  <div class="card" style="margin-bottom:1rem;">
+    <div class="progress-row">
+      <span class="progress-label">Voting progress</span>
+      <span class="progress-count"><span id="voted-count">0</span> / 38 students</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Vote form -->
+  <div class="card" id="vote-card">
+    <div class="card-title">Cast your vote</div>
+    <div class="field">
+      <label for="roll-input">Roll number <span class="field-hint">(1 to 38)</span></label>
+      <input type="number" id="roll-input" min="1" max="38" placeholder="Enter your roll number" autocomplete="off" />
+    </div>
+    <div class="vote-divider">
+      <div class="vote-group boy">
+        <label for="boy-select">&#9654; Boy representative</label>
+        <select id="boy-select">
+          <option value="">Select candidate</option>
+        </select>
+      </div>
+      <div class="vote-group girl">
+        <label for="girl-select">&#9654; Girl representative</label>
+        <select id="girl-select">
+          <option value="">Select candidate</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-submit" id="submit-btn" onclick="submitVote()">Submit vote</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('results', this)">Results</button>
+    <button class="tab-btn" onclick="switchTab('register', this)">Voter register</button>
+    <button class="tab-btn" onclick="switchTab('admin', this)">Admin</button>
+  </div>
+
+  <!-- Results tab -->
+  <div id="tab-results" class="tab-panel active">
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-val" id="s-voted">0</div><div class="stat-lbl">Voted</div></div>
+      <div class="stat"><div class="stat-val" id="s-left">38</div><div class="stat-lbl">Remaining</div></div>
+      <div class="stat"><div class="stat-val" id="s-pct">0%</div><div class="stat-lbl">Turnout</div></div>
+    </div>
+    <div class="results-split">
+      <div class="card" style="padding:1.25rem;">
+        <div class="result-section-title boy">Boy candidates</div>
+        <div id="boy-results"></div>
+      </div>
+      <div class="card" style="padding:1.25rem;">
+        <div class="result-section-title girl">Girl candidates</div>
+        <div id="girl-results"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register tab -->
+  <div id="tab-register" class="tab-panel">
+    <div class="card">
+      <div class="card-title">Voter register</div>
+      <div class="chips-legend">
+        <span><span class="leg-dot voted"></span>Voted</span>
+        <span><span class="leg-dot"></span>Not yet voted</span>
+      </div>
+      <div class="chips-wrap" id="voter-chips"></div>
+    </div>
+  </div>
+
+  <!-- Admin tab -->
+  <div id="tab-admin" class="tab-panel">
+    <div class="card">
+      <div class="card-title">Admin panel</div>
+      <div id="admin-locked-ui">
+        <p style="font-size:14px; color:var(--text-2); margin-bottom:12px;">Enter the admin PIN to manage the election.</p>
+        <div class="pin-row">
+          <input type="password" id="pin-input" placeholder="PIN" maxlength="6" onkeydown="if(event.key==='Enter')checkPin()" />
+          <button class="btn-outline" onclick="checkPin()">Unlock</button>
+        </div>
+      </div>
+      <div id="admin-open-ui" style="display:none;">
+        <div class="unlocked-note">&#10003; Admin access granted</div>
+        <p style="font-size:14px; color:var(--text-2);">Use the button below to clear all votes and reset the voter register. This action cannot be undone.</p>
+        <button class="btn-danger" onclick="resetElection()">Reset all votes</button>
+        <p class="admin-note">All data will be permanently erased.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  /* ===== CONFIGURATION — edit these before using ===== */
+  const TOTAL_STUDENTS = 38;
+  const ADMIN_PIN = "1234"; // Change this to a secret PIN
+  const BOY_CANDIDATES = ["Arjun", "Rahul", "Kiran", "Vishnu", "Aditya"];
+  const GIRL_CANDIDATES = ["Anjali", "Priya", "Meera", "Divya", "Sneha"];
+  /* =================================================== */
+
+  const BOY_COLORS = ["#2563eb","#0891b2","#7c3aed","#0d9488","#1d4ed8"];
+  const GIRL_COLORS = ["#db2777","#e11d48","#9333ea","#be185d","#c026d3"];
+  const STORAGE_KEY = "class_election_v2";
+
+  // Populate dropdowns
+  BOY_CANDIDATES.forEach(n => {
+    const o = document.createElement("option");
+    o.value = n; o.textContent = n;
+    document.getElementById("boy-select").appendChild(o);
+  });
+  GIRL_CANDIDATES.forEach(n => {
+    const o = document.createElement("option");
+    o.value = n; o.textContent = n;
+    document.getElementById("girl-select").appendChild(o);
+  });
+
+  function loadData() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return { voted: [], boyVotes: {}, girlVotes: {} };
+  }
+
+  function saveData(d) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(e) {}
+  }
+
+  let DATA = loadData();
+
+  function showAlert(msg, type) {
+    const el = document.getElementById("alert-box");
+    const icon = type === "error"
+      ? `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
+      : `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`;
+    el.innerHTML = icon + `<span>${msg}</span>`;
+    el.className = `alert visible alert-${type}`;
+    clearTimeout(window._at);
+    if (type === "success") window._at = setTimeout(() => el.classList.remove("visible"), 4000);
+  }
+
+  function submitVote() {
+    const roll = parseInt(document.getElementById("roll-input").value);
+    const boy = document.getElementById("boy-select").value;
+    const girl = document.getElementById("girl-select").value;
+
+    if (!roll || roll < 1 || roll > TOTAL_STUDENTS) {
+      showAlert("Please enter a valid roll number between 1 and " + TOTAL_STUDENTS + ".", "error"); return;
+    }
+    if (!boy) { showAlert("Please select a boy representative.", "error"); return; }
+    if (!girl) { showAlert("Please select a girl representative.", "error"); return; }
+    if (DATA.voted.includes(roll)) {
+      showAlert(`Roll number ${roll} has already voted. Each student may only vote once.`, "error"); return;
+    }
+
+    DATA.voted.push(roll);
+    DATA.boyVotes[boy] = (DATA.boyVotes[boy] || 0) + 1;
+    DATA.girlVotes[girl] = (DATA.girlVotes[girl] || 0) + 1;
+    saveData(DATA);
+
+    document.getElementById("roll-input").value = "";
+    document.getElementById("boy-select").value = "";
+    document.getElementById("girl-select").value = "";
+
+    showAlert(`Vote recorded for roll number ${roll}. Thank you!`, "success");
+    refresh();
+  }
+
+  function renderBars(containerId, candidates, votes, colors) {
+    const el = document.getElementById(containerId);
+    const maxV = Math.max(...candidates.map(c => votes[c] || 0), 1);
+    const topV = Math.max(...candidates.map(c => votes[c] || 0));
+    el.innerHTML = candidates.map((c, i) => {
+      const v = votes[c] || 0;
+      const pct = Math.round((v / maxV) * 100);
+      const leading = v > 0 && v === topV;
+      return `<div class="candidate-row">
+        <span class="c-name">${c}${leading ? '<span class="leading-badge">leading</span>' : ''}</span>
+        <div class="c-bar-wrap"><div class="c-bar" style="width:${pct}%;background:${colors[i]};"></div></div>
+        <span class="c-votes">${v}</span>
+      </div>`;
+    }).join("");
+  }
+
+  <!--function refresh() {
+    const voted = DATA.voted.length;
+    const pct = Math.round((voted / TOTAL_STUDENTS) * 100);
+
+    document.getElementById("progress-fill").style.width = pct + "%";
+    document.getElementById("voted-count").textContent = voted;
+    document.getElementById("s-voted").textContent = voted;
+    document.getElementById("s-left").textContent = TOTAL_STUDENTS - voted;
+    document.getElementById("s-pct").textContent = pct + "%";
+
+    renderBars("boy-results", BOY_CANDIDATES, DATA.boyVotes, BOY_COLORS);
+    renderBars("girl-results", GIRL_CANDIDATES, DATA.girlVotes, GIRL_COLORS);-->
+
+    // Chips
+    const chips = document.getElementById("voter-chips");
+    chips.innerHTML = Array.from({length: TOTAL_STUDENTS}, (_, i) => {
+      const r = i + 1;
+      return `<div class="chip${DATA.voted.includes(r) ? " voted" : ""}" title="Roll ${r}">${r}</div>`;
+    }).join("");
+  }
+
+  function switchTab(id, btn) {
+    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.getElementById("tab-" + id).classList.add("active");
+    btn.classList.add("active");
+  }
+
+  function checkPin() {
+    const pin = document.getElementById("pin-input").value;
+    if (pin === ADMIN_PIN) {
+      document.getElementById("admin-locked-ui").style.display = "none";
+      document.getElementById("admin-open-ui").style.display = "block";
+    } else {
+      showAlert("Incorrect PIN. Try again.", "error");
+      document.getElementById("pin-input").value = "";
+    }
+  }
+
+  function resetElection() {
+    if (!confirm("Reset all votes? This cannot be undone.")) return;
+    DATA = { voted: [], boyVotes: {}, girlVotes: {} };
+    saveData(DATA);
+    document.getElementById("admin-locked-ui").style.display = "block";
+    document.getElementById("admin-open-ui").style.display = "none";
+    document.getElementById("pin-input").value = "";
+    showAlert("Election has been reset successfully.", "success");
+    refresh();
+  }
+
+  refresh();
+</script>
+</body>
+</html>
