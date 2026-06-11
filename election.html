@@ -1,650 +1,911 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Class Representative Election</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Class IX C Election – St. John's School, Anchal</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
 
     :root {
-      --bg: #f4f4f5;
-      --surface: #ffffff;
-      --border: #e4e4e7;
-      --text: #18181b;
-      --text-2: #71717a;
-      --text-3: #a1a1aa;
-      --accent: #2563eb;
-      --accent-bg: #eff6ff;
-      --accent-text: #1d4ed8;
-      --success-bg: #f0fdf4;
-      --success-text: #15803d;
-      --success-border: #bbf7d0;
-      --danger-bg: #fef2f2;
-      --danger-text: #b91c1c;
-      --danger-border: #fecaca;
-      --boy-color: #2563eb;
-      --girl-color: #db2777;
-      --radius: 12px;
-      --radius-sm: 8px;
+      --red:    #B22234;
+      --gold:   #D4A017;
+      --navy:   #1A2B5A;
+      --cream:  #FDF8EE;
+      --white:  #FFFFFF;
+      --light:  #F0EBE0;
+      --border: #C8B97A;
+      --text:   #1C1C1C;
+      --muted:  #666;
+      --success:#1E7A3C;
+      --error:  #C0392B;
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg);
+      background: var(--cream);
       color: var(--text);
       min-height: 100vh;
-      padding: 2rem 1rem 4rem;
     }
 
-    .container {
-      max-width: 580px;
-      margin: 0 auto;
-    }
-
-    /* Header */
-    .page-header {
+    /* ───── HEADER ───── */
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, #0F1D3E 100%);
+      color: var(--white);
+      padding: 22px 24px 18px;
       text-align: center;
-      margin-bottom: 2rem;
+      border-bottom: 4px solid var(--gold);
+      position: relative;
     }
-    .school-label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-2);
-      margin-bottom: 10px;
-    }
-    .page-title {
-      font-size: 28px;
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.2;
-      margin-bottom: 6px;
-    }
-    .page-sub {
-      font-size: 14px;
-      color: var(--text-2);
-    }
-
-    /* Cards */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-2);
-      margin-bottom: 1rem;
-    }
-
-    /* Progress */
-    .progress-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .progress-label { font-size: 14px; color: var(--text-2); }
-    .progress-count { font-size: 14px; font-weight: 600; color: var(--text); }
-    .progress-track {
-      height: 10px;
-      background: var(--bg);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), #60a5fa);
-      border-radius: 99px;
-      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    /* Alerts */
-    .alert {
-      display: none;
-      padding: 12px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      margin-bottom: 1rem;
-      border: 1px solid;
-    }
-    .alert.visible { display: flex; align-items: flex-start; gap: 10px; }
-    .alert-error { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
-    .alert-success { background: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
-    .alert svg { flex-shrink: 0; margin-top: 1px; }
-
-    /* Form */
-    .field { margin-bottom: 1.25rem; }
-    .field:last-child { margin-bottom: 0; }
-    label {
+    header::after {
+      content: '';
       display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 6px;
+      height: 3px;
+      background: var(--red);
+      margin-top: 4px;
     }
-    .field-hint { font-size: 12px; color: var(--text-3); font-weight: 400; margin-left: 4px; }
-    input[type="number"], select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-size: 15px;
-      font-family: inherit;
-      color: var(--text);
-      background: var(--surface);
-      outline: none;
-      transition: border-color 0.15s;
-      appearance: none;
-      -webkit-appearance: none;
-    }
-    input[type="number"]:focus, select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
-    }
-    select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 40px;
-    }
-
-    .vote-divider {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .vote-group {
-      padding: 1rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-    }
-    .vote-group.boy { border-top: 3px solid var(--boy-color); }
-    .vote-group.girl { border-top: 3px solid var(--girl-color); }
-    .vote-group label { color: var(--text); font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-
-    .btn-submit {
-      width: 100%;
-      padding: 12px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: var(--radius-sm);
-      font-size: 15px;
-      font-weight: 500;
-      font-family: inherit;
-      cursor: pointer;
-      margin-top: 1.25rem;
-      transition: background 0.15s, transform 0.1s;
-    }
-    .btn-submit:hover { background: #1d4ed8; }
-    .btn-submit:active { transform: scale(0.99); }
-    .btn-submit:disabled { background: var(--border); color: var(--text-3); cursor: not-allowed; }
-
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 4px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 4px;
-      margin-bottom: 1rem;
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 8px 12px;
-      font-size: 13px;
-      font-weight: 500;
-      font-family: inherit;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      background: transparent;
-      color: var(--text-2);
-      transition: background 0.15s, color 0.15s;
-    }
-    .tab-btn.active {
-      background: var(--accent);
-      color: #fff;
-    }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    /* Stat grid */
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 1rem;
-    }
-    .stat {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 1rem;
-      text-align: center;
-    }
-    .stat-val { font-size: 26px; font-weight: 600; color: var(--text); line-height: 1; }
-    .stat-lbl { font-size: 12px; color: var(--text-2); margin-top: 4px; }
-
-    /* Results bars */
-    .result-section-title {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-    .result-section-title.boy { color: var(--boy-color); }
-    .result-section-title.girl { color: var(--girl-color); }
-    .candidate-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .c-name {
-      font-size: 14px;
-      font-weight: 500;
-      min-width: 80px;
-      color: var(--text);
-    }
-    .c-bar-wrap {
-      flex: 1;
-      height: 22px;
-      background: var(--bg);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .c-bar {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-      min-width: 0;
-    }
-    .c-votes {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      min-width: 28px;
-      text-align: right;
-    }
-    .leading-badge {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 99px;
-      background: var(--success-bg);
-      color: var(--success-text);
-      border: 1px solid var(--success-border);
-      margin-left: 4px;
-    }
-    .results-split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    @media (max-width: 480px) {
-      .results-split { grid-template-columns: 1fr; }
-      .vote-divider { grid-template-columns: 1fr; }
-    }
-
-    /* Voter register chips */
-    .chips-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
-    .chip {
-      width: 38px;
-      height: 38px;
+    .header-inner {
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text-2);
-      transition: background 0.2s, color 0.2s;
+      gap: 20px;
+      flex-wrap: wrap;
     }
-    .chip.voted {
-      background: var(--success-bg);
-      color: var(--success-text);
-      border-color: var(--success-border);
+    header img {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      object-fit: cover;
+      background: #fff;
     }
-    .chips-legend {
+    .header-text h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+      letter-spacing: 1px;
+      color: var(--gold);
+    }
+    .header-text .sub {
+      font-size: 0.8rem;
+      color: #BBCFFF;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+    .header-text .class-badge {
+      display: inline-block;
+      margin-top: 6px;
+      background: var(--red);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 14px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+    }
+
+    /* ───── ADMIN BUTTON in header ───── */
+    .admin-btn-wrap {
+      position: absolute;
+      top: 16px; right: 16px;
+    }
+    .btn-admin-header {
+      background: rgba(255,255,255,0.12);
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+    .btn-admin-header:hover { background: var(--gold); color: var(--navy); }
+
+    /* ───── VOTE COUNTER BANNER ───── */
+    .vote-counter {
+      background: linear-gradient(90deg, #1A2B5A 0%, #2A4080 100%);
+      color: #fff;
+      padding: 10px 20px;
       display: flex;
-      gap: 16px;
-      font-size: 12px;
-      color: var(--text-2);
-      margin-bottom: 12px;
-    }
-    .chips-legend span {
-      display: flex;
+      justify-content: center;
       align-items: center;
-      gap: 6px;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 0.82rem;
+      border-bottom: 2px solid var(--gold);
     }
-    .leg-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 3px;
-      border: 1px solid var(--border);
+    .vote-counter .vc-item {
+      display: flex; align-items: center; gap: 7px;
     }
-    .leg-dot.voted { background: var(--success-bg); border-color: var(--success-border); }
-
-    /* Admin */
-    .pin-row { display: flex; gap: 8px; }
-    .pin-row input { flex: 1; }
-    .btn-outline {
-      padding: 10px 18px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-weight: 500;
-      font-family: inherit;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
-    .btn-outline:hover { background: var(--bg); }
-    .btn-danger {
-      width: 100%;
-      padding: 11px;
-      background: var(--danger-bg);
-      color: var(--danger-text);
-      border: 1px solid var(--danger-border);
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-weight: 500;
-      font-family: inherit;
-      cursor: pointer;
-      margin-top: 1rem;
-    }
-    .btn-danger:hover { background: #fee2e2; }
-    .admin-note { font-size: 12px; color: var(--text-3); text-align: center; margin-top: 8px; }
-    .unlocked-note {
-      font-size: 13px;
-      color: var(--success-text);
-      background: var(--success-bg);
-      border: 1px solid var(--success-border);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      margin-bottom: 1rem;
-    }
-
-    /* Closed state */
-    .election-closed {
+    .vc-num {
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 1rem;
+      min-width: 32px;
       text-align: center;
-      padding: 2rem;
+      padding: 2px 8px;
+      border-radius: 6px;
     }
-    .closed-icon { font-size: 40px; margin-bottom: 12px; }
-    .closed-title { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-    .closed-sub { font-size: 14px; color: var(--text-2); }
+    .vc-label { color: #BBCFFF; font-size: 0.75rem; }
+
+    /* ───── PROGRESS STEPS ───── */
+    .steps {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 18px 16px 12px;
+      gap: 0;
+    }
+    .step {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 4px; flex: 0 0 auto;
+    }
+    .step-circle {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem;
+      border: 2px solid var(--border);
+      background: var(--light);
+      color: var(--muted);
+      transition: all 0.3s;
+    }
+    .step.active .step-circle { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .step.done .step-circle   { background: var(--success); color: #fff; border-color: var(--success); }
+    .step-label {
+      font-size: 0.68rem; color: var(--muted);
+      font-weight: 500; text-align: center; max-width: 70px;
+    }
+    .step.active .step-label { color: var(--navy); font-weight: 700; }
+    .step-line { width: 40px; height: 2px; background: var(--border); margin-bottom: 20px; }
+
+    /* ───── MAIN ───── */
+    main { max-width: 560px; margin: 0 auto; padding: 10px 16px 60px; }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      box-shadow: 0 4px 20px rgba(26,43,90,0.08);
+    }
+    .card h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card .subtitle {
+      font-size: 0.78rem; color: var(--muted);
+      margin-bottom: 22px; padding-bottom: 14px;
+      border-bottom: 1px solid var(--light);
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--navy); margin-bottom: 5px; margin-top: 16px;
+    }
+    input[type="text"], input[type="number"], input[type="password"], select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #D0C9B8;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      background: var(--cream);
+      color: var(--text);
+      transition: border 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus { border-color: var(--navy); background: #fff; }
+
+    .error-msg {
+      background: #FDECEA; color: var(--error);
+      border: 1px solid #F5C6C2; border-radius: 8px;
+      padding: 10px 14px; font-size: 0.82rem;
+      margin-top: 14px; display: none; font-weight: 500;
+    }
+    .error-msg.show { display: block; }
+
+    .confirm-box {
+      background: var(--cream); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 16px 18px; margin: 18px 0;
+    }
+    .confirm-row {
+      display: flex; justify-content: space-between;
+      padding: 7px 0; border-bottom: 1px solid var(--light);
+      font-size: 0.87rem;
+    }
+    .confirm-row:last-child { border-bottom: none; }
+    .confirm-row span:first-child { color: var(--muted); }
+    .confirm-row span:last-child { font-weight: 600; color: var(--navy); }
+
+    .btn {
+      display: block; width: 100%; padding: 13px;
+      border: none; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; margin-top: 18px;
+      transition: all 0.2s; letter-spacing: 0.3px;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--navy), #2A4080); color: #fff; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(26,43,90,0.3); }
+    .btn-danger { background: linear-gradient(135deg, var(--red), #8B1B25); color: #fff; }
+    .btn-danger:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(178,34,52,0.3); }
+    .btn-outline { background: transparent; border: 2px solid var(--navy); color: var(--navy); }
+    .btn-outline:hover { background: var(--navy); color: #fff; }
+    .btn-gold { background: linear-gradient(135deg, var(--gold), #B8860B); color: var(--navy); }
+    .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(212,160,23,0.4); }
+
+    /* ───── CANDIDATE LIST ───── */
+    .section-title {
+      font-family: 'Cinzel', serif; font-size: 0.95rem;
+      color: var(--navy); margin: 22px 0 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .candidate-list {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    @media(max-width:420px) { .candidate-list { grid-template-columns: 1fr; } }
+
+    .candidate-card {
+      border: 2px solid #D0C9B8; border-radius: 10px;
+      padding: 12px 14px; cursor: pointer;
+      transition: all 0.2s; background: var(--cream);
+      position: relative;
+    }
+    .candidate-card:hover { border-color: var(--navy); background: #F0EBF8; }
+    .candidate-card.selected {
+      border-color: var(--navy); background: #E8EEF8;
+      box-shadow: 0 0 0 3px rgba(26,43,90,0.15);
+    }
+    .candidate-card input[type="radio"] {
+      position: absolute; top: 10px; right: 10px;
+      accent-color: var(--navy); width: 16px; height: 16px;
+    }
+    .cand-name { font-weight: 700; font-size: 0.88rem; color: var(--navy); padding-right: 22px; }
+    .cand-roll { font-size: 0.72rem; color: var(--muted); margin-top: 3px; }
+
+    /* ───── SUCCESS ───── */
+    .success-screen { text-align: center; padding: 30px 10px; }
+    .success-icon {
+      width: 72px; height: 72px; background: #E8F5E9;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 16px; font-size: 2.2rem;
+    }
+    .success-screen h2 { font-family: 'Cinzel', serif; color: var(--success); font-size: 1.3rem; justify-content: center; }
+    .success-screen p { font-size: 0.87rem; color: var(--muted); margin-top: 8px; }
+    .voted-for {
+      background: var(--cream); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 14px 18px; margin: 18px 0; font-size: 0.9rem;
+    }
+
+    /* ───── RESULTS PAGE ───── */
+    .results-header {
+      text-align: center; margin-bottom: 24px;
+    }
+    .results-header h2 {
+      font-family: 'Cinzel', serif; color: var(--navy); font-size: 1.2rem;
+      justify-content: center; margin-bottom: 4px;
+    }
+    .results-header .sub { font-size: 0.78rem; color: var(--muted); }
+
+    .results-section { margin-bottom: 28px; }
+    .results-section-title {
+      font-family: 'Cinzel', serif; font-size: 0.9rem;
+      color: var(--white); background: var(--navy);
+      padding: 8px 16px; border-radius: 8px; margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .result-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; margin-bottom: 7px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      background: var(--cream); position: relative; overflow: hidden;
+    }
+    .result-row.winner {
+      border-color: var(--gold);
+      background: linear-gradient(90deg, #FFF9E6 0%, #FFFDF5 100%);
+    }
+    .result-bar-bg {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      background: rgba(26,43,90,0.06); border-radius: 10px 0 0 10px;
+      transition: width 0.5s ease;
+    }
+    .result-row.winner .result-bar-bg { background: rgba(212,160,23,0.15); }
+    .result-rank {
+      font-size: 0.7rem; font-weight: 800; color: var(--muted);
+      min-width: 20px; text-align: center; z-index: 1;
+    }
+    .result-row.winner .result-rank { color: var(--gold); font-size: 1rem; }
+    .result-name { flex: 1; font-weight: 600; font-size: 0.9rem; color: var(--navy); z-index: 1; }
+    .result-adm { font-size: 0.7rem; color: var(--muted); z-index: 1; }
+    .result-count {
+      font-size: 1.1rem; font-weight: 800; color: var(--navy);
+      z-index: 1; min-width: 30px; text-align: right;
+    }
+    .result-row.winner .result-count { color: var(--gold); }
+    .result-pct { font-size: 0.7rem; color: var(--muted); z-index: 1; min-width: 36px; text-align: right; }
+    .crown { font-size: 1rem; z-index: 1; }
+
+    .results-summary {
+      background: var(--cream); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 14px 18px; margin-bottom: 20px;
+    }
+    .summary-row {
+      display: flex; justify-content: space-between;
+      padding: 5px 0; font-size: 0.85rem;
+      border-bottom: 1px solid var(--light);
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-row span:first-child { color: var(--muted); }
+    .summary-row span:last-child { font-weight: 700; color: var(--navy); }
+
+    /* ───── MODAL ───── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55); z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.hidden { display: none !important; }
+    .modal-box {
+      background: var(--white); border-radius: 16px;
+      padding: 30px 24px; max-width: 360px; width: 100%;
+      border: 2px solid var(--gold);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      text-align: center;
+    }
+    .modal-icon { font-size: 2.4rem; margin-bottom: 10px; }
+    .modal-box h3 { font-family: 'Cinzel', serif; color: var(--navy); font-size: 1.1rem; margin-bottom: 6px; }
+    .modal-box p { font-size: 0.82rem; color: var(--muted); margin-bottom: 18px; }
+    .modal-box input { margin-top: 0; }
+    .modal-error { color: var(--error); font-size: 0.78rem; margin-top: 8px; min-height: 18px; font-weight: 600; }
+    .modal-btns { display: flex; gap: 10px; margin-top: 16px; }
+    .modal-btns .btn { margin-top: 0; flex: 1; padding: 11px; font-size: 0.88rem; }
+
+    .hidden { display: none !important; }
+
+    .gender-badge {
+      display: inline-block; font-size: 0.66rem; font-weight: 700;
+      padding: 1px 8px; border-radius: 20px; margin-left: 6px; vertical-align: middle;
+    }
+    .badge-boy { background: #DDEEFF; color: #1254A0; }
+    .badge-girl { background: #FFE0F0; color: #B0336A; }
+
+    footer {
+      text-align: center; padding: 14px;
+      font-size: 0.72rem; color: var(--muted);
+      border-top: 1px solid var(--border); margin-top: 30px;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-
-  <header class="page-header">
-    <div class="school-label">Academic Year 2024–25</div>
-    <h1 class="page-title">Class Representative<br>Election</h1>
-    <p class="page-sub">Each student gets one vote — boy rep &amp; girl rep</p>
-  </header>
-
-  <div id="alert-box" class="alert" role="alert"></div>
-
-  <!-- Vote progress -->
-  <div class="card" style="margin-bottom:1rem;">
-    <div class="progress-row">
-      <span class="progress-label">Voting progress</span>
-      <span class="progress-count"><span id="voted-count">0</span> / 38 students</span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+<!-- ADMIN PASSWORD MODAL -->
+<div class="modal-overlay hidden" id="adminModal">
+  <div class="modal-box">
+    <div class="modal-icon">🔐</div>
+    <h3>Admin Access</h3>
+    <p>Enter the administrator password to view election results.</p>
+    <label for="adminPassInput" style="text-align:left;">Password</label>
+    <input type="password" id="adminPassInput" placeholder="Enter password" autocomplete="off"
+           onkeydown="if(event.key==='Enter') checkAdminPass()" />
+    <div class="modal-error" id="adminPassError"></div>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeAdminModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="checkAdminPass()">View Results →</button>
     </div>
   </div>
-
-  <!-- Vote form -->
-  <div class="card" id="vote-card">
-    <div class="card-title">Cast your vote</div>
-    <div class="field">
-      <label for="roll-input">Roll number <span class="field-hint">(1 to 38)</span></label>
-      <input type="number" id="roll-input" min="1" max="38" placeholder="Enter your roll number" autocomplete="off" />
-    </div>
-    <div class="vote-divider">
-      <div class="vote-group boy">
-        <label for="boy-select">&#9654; Boy representative</label>
-        <select id="boy-select">
-          <option value="">Select candidate</option>
-        </select>
-      </div>
-      <div class="vote-group girl">
-        <label for="girl-select">&#9654; Girl representative</label>
-        <select id="girl-select">
-          <option value="">Select candidate</option>
-        </select>
-      </div>
-    </div>
-    <button class="btn-submit" id="submit-btn" onclick="submitVote()">Submit vote</button>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('results', this)">Results</button>
-    <button class="tab-btn" onclick="switchTab('register', this)">Voter register</button>
-    <button class="tab-btn" onclick="switchTab('admin', this)">Admin</button>
-  </div>
-
-  <!-- Results tab -->
-  <div id="tab-results" class="tab-panel active">
-    <div class="stat-grid">
-      <div class="stat"><div class="stat-val" id="s-voted">0</div><div class="stat-lbl">Voted</div></div>
-      <div class="stat"><div class="stat-val" id="s-left">38</div><div class="stat-lbl">Remaining</div></div>
-      <div class="stat"><div class="stat-val" id="s-pct">0%</div><div class="stat-lbl">Turnout</div></div>
-    </div>
-    <div class="results-split">
-      <div class="card" style="padding:1.25rem;">
-        <div class="result-section-title boy">Boy candidates</div>
-        <div id="boy-results"></div>
-      </div>
-      <div class="card" style="padding:1.25rem;">
-        <div class="result-section-title girl">Girl candidates</div>
-        <div id="girl-results"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Register tab -->
-  <div id="tab-register" class="tab-panel">
-    <div class="card">
-      <div class="card-title">Voter register</div>
-      <div class="chips-legend">
-        <span><span class="leg-dot voted"></span>Voted</span>
-        <span><span class="leg-dot"></span>Not yet voted</span>
-      </div>
-      <div class="chips-wrap" id="voter-chips"></div>
-    </div>
-  </div>
-
-  <!-- Admin tab -->
-  <div id="tab-admin" class="tab-panel">
-    <div class="card">
-      <div class="card-title">Admin panel</div>
-      <div id="admin-locked-ui">
-        <p style="font-size:14px; color:var(--text-2); margin-bottom:12px;">Enter the admin PIN to manage the election.</p>
-        <div class="pin-row">
-          <input type="password" id="pin-input" placeholder="PIN" maxlength="6" onkeydown="if(event.key==='Enter')checkPin()" />
-          <button class="btn-outline" onclick="checkPin()">Unlock</button>
-        </div>
-      </div>
-      <div id="admin-open-ui" style="display:none;">
-        <div class="unlocked-note">&#10003; Admin access granted</div>
-        <p style="font-size:14px; color:var(--text-2);">Use the button below to clear all votes and reset the voter register. This action cannot be undone.</p>
-        <button class="btn-danger" onclick="resetElection()">Reset all votes</button>
-        <p class="admin-note">All data will be permanently erased.</p>
-      </div>
-    </div>
-  </div>
-
 </div>
 
+<header>
+  <div class="admin-btn-wrap">
+    <button class="btn-admin-header" onclick="openAdminModal()">🔐 Admin</button>
+  </div>
+  <div class="header-inner">
+    <img src="data:image/jpeg;base64,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" alt="St. John's School Logo" onerror="this.style.display='none'">
+    <div class="header-text">
+      <h1>St. John's School, Anchal</h1>
+      <div class="sub">Est. 1984 · Let Thy Lamp Shine</div>
+      <div class="class-badge">CLASS IX – C &nbsp;|&nbsp; ELECTION 2026–27</div>
+    </div>
+  </div>
+</header>
+
+<!-- VOTE COUNTER BANNER -->
+<div class="vote-counter">
+  <div class="vc-item">
+    <span class="vc-label">Total Votes Cast</span>
+    <span class="vc-num" id="vc-total">0</span>
+  </div>
+  <div class="vc-item">
+    <span class="vc-label">👦 Boy Votes</span>
+    <span class="vc-num" id="vc-boys">0</span>
+  </div>
+  <div class="vc-item">
+    <span class="vc-label">👧 Girl Votes</span>
+    <span class="vc-num" id="vc-girls">0</span>
+  </div>
+  <div class="vc-item">
+    <span class="vc-label">Remaining</span>
+    <span class="vc-num" id="vc-remaining">38</span>
+  </div>
+</div>
+
+<!-- PROGRESS STEPS -->
+<div class="steps" id="stepsBar">
+  <div class="step active" id="step1">
+    <div class="step-circle">1</div>
+    <div class="step-label">Voter Details</div>
+  </div>
+  <div class="step-line"></div>
+  <div class="step" id="step2">
+    <div class="step-circle">2</div>
+    <div class="step-label">Confirm Identity</div>
+  </div>
+  <div class="step-line"></div>
+  <div class="step" id="step3">
+    <div class="step-circle">3</div>
+    <div class="step-label">Cast Vote</div>
+  </div>
+  <div class="step-line"></div>
+  <div class="step" id="step4">
+    <div class="step-circle">4</div>
+    <div class="step-label">Done</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- ═══ PAGE 1: VOTER ENTRY ═══ -->
+  <div id="page-voter" class="card">
+    <h2>🗳️ Voter Verification</h2>
+    <div class="subtitle">Enter your details exactly as on the class register.</div>
+
+    <label for="rollInput">Admission / Roll Number</label>
+    <input type="number" id="rollInput" placeholder="e.g. 9481" min="1" />
+
+    <label for="nameInput">Full Name</label>
+    <input type="text" id="nameInput" placeholder="e.g. Akshay S" autocomplete="off" />
+
+    <div id="errorMsg" class="error-msg"></div>
+
+    <button class="btn btn-primary" onclick="verifyVoter()">Verify &amp; Continue →</button>
+  </div>
+
+  <!-- ═══ PAGE 2: CONFIRM IDENTITY ═══ -->
+  <div id="page-confirm" class="card hidden">
+    <h2>✅ Confirm Your Identity</h2>
+    <div class="subtitle">Please review your details before proceeding.</div>
+
+    <div class="confirm-box">
+      <div class="confirm-row"><span>Name</span><span id="conf-name"></span></div>
+      <div class="confirm-row"><span>Admission No.</span><span id="conf-roll"></span></div>
+      <div class="confirm-row"><span>Class</span><span>IX – C</span></div>
+      <div class="confirm-row"><span>Category</span><span id="conf-gender"></span></div>
+    </div>
+
+    <p style="font-size:0.8rem;color:var(--muted);margin-top:4px;">⚠️ You will be voting for <strong id="conf-vote-for"></strong> candidates only.</p>
+
+    <button class="btn btn-primary" onclick="goToVote()">Confirm &amp; Proceed to Vote →</button>
+    <button class="btn btn-outline" onclick="goBack()" style="margin-top:10px;">← Go Back</button>
+  </div>
+
+  <!-- ═══ PAGE 3: CAST VOTE ═══ -->
+  <div id="page-vote" class="card hidden">
+    <h2 id="vote-heading">🗳️ Cast Your Vote</h2>
+    <div class="subtitle" id="vote-subtitle"></div>
+
+    <div class="section-title" id="vote-section-label"></div>
+    <div class="candidate-list" id="candidate-list"></div>
+
+    <div id="voteErrorMsg" class="error-msg"></div>
+
+    <button class="btn btn-danger" onclick="submitVote()" style="margin-top:22px;">Submit My Vote 🗳️</button>
+    <button class="btn btn-outline" onclick="goBack2()" style="margin-top:10px;">← Go Back</button>
+  </div>
+
+  <!-- ═══ PAGE 4: SUCCESS ═══ -->
+  <div id="page-success" class="card hidden">
+    <div class="success-screen">
+      <div class="success-icon">✅</div>
+      <h2>Vote Recorded!</h2>
+      <p>Your vote has been successfully cast. Thank you for participating.</p>
+
+      <div class="voted-for">
+        <div style="font-size:0.75rem;color:var(--muted);margin-bottom:4px;">YOU VOTED FOR</div>
+        <div id="final-voted-name" style="font-size:1.1rem;font-weight:700;color:var(--navy);"></div>
+        <div id="final-voted-roll" style="font-size:0.78rem;color:var(--muted);margin-top:2px;"></div>
+      </div>
+
+      <p style="font-size:0.78rem;color:var(--muted);">Voter: <strong id="final-voter-name"></strong> &nbsp;|&nbsp; Adm No. <strong id="final-voter-roll"></strong></p>
+      <p style="font-size:0.75rem;color:var(--muted);margin-top:12px;">This page will reset in <strong id="countdown">5</strong> seconds…</p>
+    </div>
+  </div>
+
+  <!-- ═══ PAGE 5: RESULTS ═══ -->
+  <div id="page-results" class="card hidden">
+    <div class="results-header">
+      <h2>📊 Election Results</h2>
+      <div class="sub">Class IX – C &nbsp;|&nbsp; St. John's School, Anchal &nbsp;|&nbsp; 2026–27</div>
+    </div>
+
+    <div class="results-summary" id="results-summary"></div>
+
+    <div class="results-section">
+      <div class="results-section-title">👦 Boy Candidates — Results</div>
+      <div id="results-boys"></div>
+    </div>
+
+    <div class="results-section">
+      <div class="results-section-title">👧 Girl Candidates — Results</div>
+      <div id="results-girls"></div>
+    </div>
+
+    <button class="btn btn-outline" onclick="closeResults()" style="margin-top:8px;">← Back to Voting</button>
+  </div>
+
+</main>
+
+<footer>St. John's School, Anchal &nbsp;·&nbsp; Class IX C Election 2026–27 &nbsp;·&nbsp; Secure &amp; Fair Voting</footer>
+
 <script>
-  /* ===== CONFIGURATION — edit these before using ===== */
-  const TOTAL_STUDENTS = 38;
-  const ADMIN_PIN = "1234"; // Change this to a secret PIN
-  const BOY_CANDIDATES = ["Arjun", "Rahul", "Kiran", "Vishnu", "Aditya"];
-  const GIRL_CANDIDATES = ["Anjali", "Priya", "Meera", "Divya", "Sneha"];
-  /* =================================================== */
+// ─── STUDENT DATABASE ───
+const STUDENTS = [
+  { roll: 11417, name: "Aadidev A",             sl: 1,  gender: "boy" },
+  { roll: 9476,  name: "Abhinand B. L.",         sl: 2,  gender: "boy" },
+  { roll: 9444,  name: "Abhishek A. R.",          sl: 3,  gender: "boy" },
+  { roll: 9481,  name: "Akshay S",               sl: 4,  gender: "boy" },
+  { roll: 9587,  name: "Aman Suhail",            sl: 5,  gender: "boy" },
+  { roll: 13088, name: "Anin Shaji",             sl: 6,  gender: "boy" },
+  { roll: 11418, name: "Arush Siva A",           sl: 7,  gender: "boy" },
+  { roll: 9410,  name: "Ashkar Salman S",        sl: 8,  gender: "boy" },
+  { roll: 9524,  name: "Fayaaz Muhammad",        sl: 9,  gender: "boy" },
+  { roll: 9566,  name: "Jeswin Jubin George",    sl: 10, gender: "boy" },
+  { roll: 9557,  name: "Jewel J. Mathew",        sl: 11, gender: "boy" },
+  { roll: 13082, name: "Jiyo Varghese",          sl: 12, gender: "boy" },
+  { roll: 9560,  name: "Johan Jijo",             sl: 13, gender: "boy" },
+  { roll: 12670, name: "Madhav L. T.",           sl: 14, gender: "boy" },
+  { roll: 10572, name: "Mohammed Al Sameen",     sl: 15, gender: "boy" },
+  { roll: 9567,  name: "Nived S",                sl: 16, gender: "boy" },
+  { roll: 9459,  name: "Sharath Soman",          sl: 17, gender: "boy" },
+  { roll: 12678, name: "Yaseen Muhammed Umar",   sl: 18, gender: "boy" },
+  { roll: 12675, name: "Aaliya Fathima",         sl: 19, gender: "girl" },
+  { roll: 9421,  name: "Aaradhya P. S.",         sl: 20, gender: "girl" },
+  { roll: 12665, name: "Ahsana R. S.",           sl: 21, gender: "girl" },
+  { roll: 12671, name: "Ameya Arun",             sl: 22, gender: "girl" },
+  { roll: 9539,  name: "Ancelin Reji",           sl: 23, gender: "girl" },
+  { roll: 12659, name: "Angel Binu",             sl: 24, gender: "girl" },
+  { roll: 9422,  name: "Angel Maria Devesia",    sl: 25, gender: "girl" },
+  { roll: 13089, name: "Asiya Fathima I",        sl: 26, gender: "girl" },
+  { roll: 9542,  name: "Devapriya G",            sl: 27, gender: "girl" },
+  { roll: 11425, name: "Devinanditha B",         sl: 28, gender: "girl" },
+  { roll: 9598,  name: "Dilsha R. T.",           sl: 29, gender: "girl" },
+  { roll: 10554, name: "Griha Hari",             sl: 30, gender: "girl" },
+  { roll: 9565,  name: "Hanna Asif",             sl: 31, gender: "girl" },
+  { roll: 12677, name: "Inaara Nasreen Hissam",  sl: 32, gender: "girl" },
+  { roll: 12655, name: "Jewel Shijin Abraham",   sl: 33, gender: "girl" },
+  { roll: 9505,  name: "Mizpa Binu",             sl: 34, gender: "girl" },
+  { roll: 9389,  name: "Neelanjana R",           sl: 35, gender: "girl" },
+  { roll: 12120, name: "Neha K Binu",            sl: 36, gender: "girl" },
+  { roll: 9470,  name: "Nivedya A. R.",          sl: 37, gender: "girl" },
+  { roll: 10108, name: "Theertha Vijith",        sl: 38, gender: "girl" },
+];
 
-  const BOY_COLORS = ["#2563eb","#0891b2","#7c3aed","#0d9488","#1d4ed8"];
-  const GIRL_COLORS = ["#db2777","#e11d48","#9333ea","#be185d","#c026d3"];
-  const STORAGE_KEY = "class_election_v2";
+const BOY_CANDIDATES  = STUDENTS.filter(s => s.gender === "boy");
+const GIRL_CANDIDATES = STUDENTS.filter(s => s.gender === "girl");
 
-  // Populate dropdowns
-  BOY_CANDIDATES.forEach(n => {
-    const o = document.createElement("option");
-    o.value = n; o.textContent = n;
-    document.getElementById("boy-select").appendChild(o);
+const ADMIN_PASSWORD = "election@123";
+const TOTAL_STUDENTS = STUDENTS.length;
+
+// ─── STATE ───
+const votedRolls = new Set();    // admission numbers that have voted
+const votedNames = new Set();    // normalized names that have voted
+const voteCount  = {};           // { roll: count }
+STUDENTS.forEach(s => voteCount[s.roll] = 0);
+
+let boyVotesTotal  = 0;
+let girlVotesTotal = 0;
+
+let currentVoter     = null;
+let selectedCandidate = null;
+let countdownTimer   = null;
+
+// ─── COUNTER UPDATE ───
+function updateCounter() {
+  const total = boyVotesTotal + girlVotesTotal;
+  document.getElementById('vc-total').textContent     = total;
+  document.getElementById('vc-boys').textContent      = boyVotesTotal;
+  document.getElementById('vc-girls').textContent     = girlVotesTotal;
+  document.getElementById('vc-remaining').textContent = TOTAL_STUDENTS - total;
+}
+
+// ─── STEP HELPERS ───
+function setSteps(active) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('step' + i);
+    el.className = 'step' + (i < active ? ' done' : i === active ? ' active' : '');
+  }
+}
+
+function showPage(id) {
+  const pages = ['page-voter','page-confirm','page-vote','page-success','page-results'];
+  pages.forEach(p => document.getElementById(p).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  // Hide steps bar on results page
+  document.getElementById('stepsBar').classList.toggle('hidden', id === 'page-results');
+}
+
+// ─── NORMALIZE ───
+function normalize(str) {
+  return str.trim().toLowerCase().replace(/\s+/g,' ');
+}
+
+// ─── STEP 1: VERIFY VOTER ───
+function verifyVoter() {
+  const rollInput = document.getElementById('rollInput').value.trim();
+  const nameInput = document.getElementById('nameInput').value.trim();
+  const err = document.getElementById('errorMsg');
+  err.classList.remove('show');
+
+  if (!rollInput || !nameInput) {
+    showError(err, "Please enter both your admission number and full name.");
+    return;
+  }
+
+  const roll = parseInt(rollInput);
+
+  if (votedRolls.has(roll)) {
+    showError(err, "⛔ This admission number has already cast a vote. Duplicate voting is not permitted.");
+    return;
+  }
+  if (votedNames.has(normalize(nameInput))) {
+    showError(err, "⛔ This name has already cast a vote. Duplicate voting is not permitted.");
+    return;
+  }
+
+  const student = STUDENTS.find(s => s.roll === roll);
+  if (!student) {
+    showError(err, "❌ Admission number not found in the class register. Please check and try again.");
+    return;
+  }
+  if (normalize(student.name) !== normalize(nameInput)) {
+    showError(err, "❌ Name does not match the admission number. Please verify your details.");
+    return;
+  }
+
+  currentVoter = student;
+  document.getElementById('conf-name').textContent = student.name;
+  document.getElementById('conf-roll').textContent = student.roll;
+  document.getElementById('conf-gender').innerHTML = student.gender === 'boy'
+    ? '👦 Boy <span class="gender-badge badge-boy">MALE</span>'
+    : '👧 Girl <span class="gender-badge badge-girl">FEMALE</span>';
+  document.getElementById('conf-vote-for').textContent = student.gender === 'boy' ? 'Boy' : 'Girl';
+
+  setSteps(2);
+  showPage('page-confirm');
+  window.scrollTo(0,0);
+}
+
+function showError(el, msg) {
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+// ─── STEP 2: GO TO VOTE ───
+function goToVote() {
+  if (!currentVoter) return;
+
+  const candidates = currentVoter.gender === 'boy' ? BOY_CANDIDATES : GIRL_CANDIDATES;
+  const label = currentVoter.gender === 'boy' ? 'Boy Candidates' : 'Girl Candidates';
+
+  document.getElementById('vote-heading').textContent = '🗳️ Choose Your Candidate';
+  document.getElementById('vote-subtitle').textContent =
+    `Voting as: ${currentVoter.name} (Adm: ${currentVoter.roll}) · Select one candidate below.`;
+  document.getElementById('vote-section-label').innerHTML =
+    `${currentVoter.gender === 'boy' ? '👦' : '👧'} ${label}`;
+
+  const list = document.getElementById('candidate-list');
+  list.innerHTML = '';
+  selectedCandidate = null;
+
+  candidates.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'candidate-card';
+    card.dataset.roll = c.roll;
+    card.innerHTML = `
+      <input type="radio" name="candidate" value="${c.roll}" onchange="selectCandidate(${c.roll})">
+      <div class="cand-name">${c.name}</div>
+      <div class="cand-roll">Sl. ${c.sl} &nbsp;·&nbsp; Adm: ${c.roll}</div>
+    `;
+    card.addEventListener('click', () => {
+      card.querySelector('input').checked = true;
+      selectCandidate(c.roll);
+    });
+    list.appendChild(card);
   });
-  GIRL_CANDIDATES.forEach(n => {
-    const o = document.createElement("option");
-    o.value = n; o.textContent = n;
-    document.getElementById("girl-select").appendChild(o);
+
+  document.getElementById('voteErrorMsg').classList.remove('show');
+  setSteps(3);
+  showPage('page-vote');
+  window.scrollTo(0,0);
+}
+
+function selectCandidate(roll) {
+  selectedCandidate = roll;
+  document.querySelectorAll('.candidate-card').forEach(card => {
+    card.classList.toggle('selected', parseInt(card.dataset.roll) === roll);
+  });
+  document.getElementById('voteErrorMsg').classList.remove('show');
+}
+
+// ─── STEP 3: SUBMIT VOTE ───
+function submitVote() {
+  const err = document.getElementById('voteErrorMsg');
+  if (!selectedCandidate) {
+    showError(err, "Please select a candidate before submitting your vote.");
+    return;
+  }
+
+  // Register vote
+  votedRolls.add(currentVoter.roll);
+  votedNames.add(normalize(currentVoter.name));
+  voteCount[selectedCandidate]++;
+
+  if (currentVoter.gender === 'boy') boyVotesTotal++;
+  else girlVotesTotal++;
+
+  updateCounter();
+
+  const candidate = STUDENTS.find(s => s.roll === selectedCandidate);
+  document.getElementById('final-voted-name').textContent = candidate.name;
+  document.getElementById('final-voted-roll').textContent = `Adm No: ${candidate.roll} · Sl. ${candidate.sl}`;
+  document.getElementById('final-voter-name').textContent = currentVoter.name;
+  document.getElementById('final-voter-roll').textContent = currentVoter.roll;
+
+  setSteps(4);
+  showPage('page-success');
+  window.scrollTo(0,0);
+
+  // Reset state immediately (data already stored above)
+  currentVoter = null;
+  selectedCandidate = null;
+
+  // Auto-redirect countdown (5 seconds)
+  let secs = 5;
+  const cdEl = document.getElementById('countdown');
+  cdEl.textContent = secs;
+  if (countdownTimer) clearInterval(countdownTimer);
+  countdownTimer = setInterval(() => {
+    secs--;
+    cdEl.textContent = secs;
+    if (secs <= 0) {
+      clearInterval(countdownTimer);
+      resetToFront();
+    }
+  }, 1000);
+}
+
+// ─── RESET TO FRONT PAGE ───
+function resetToFront() {
+  // Clear all input fields
+  document.getElementById('rollInput').value = '';
+  document.getElementById('nameInput').value = '';
+  document.getElementById('errorMsg').classList.remove('show');
+  setSteps(1);
+  showPage('page-voter');
+  window.scrollTo(0,0);
+}
+
+// ─── BACK BUTTONS ───
+function goBack() {
+  setSteps(1);
+  showPage('page-voter');
+  window.scrollTo(0,0);
+}
+function goBack2() {
+  setSteps(2);
+  showPage('page-confirm');
+  window.scrollTo(0,0);
+}
+
+// ─── ADMIN MODAL ───
+function openAdminModal() {
+  document.getElementById('adminPassInput').value = '';
+  document.getElementById('adminPassError').textContent = '';
+  document.getElementById('adminModal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('adminPassInput').focus(), 100);
+}
+function closeAdminModal() {
+  document.getElementById('adminModal').classList.add('hidden');
+}
+function checkAdminPass() {
+  const val = document.getElementById('adminPassInput').value;
+  const errEl = document.getElementById('adminPassError');
+  if (val === ADMIN_PASSWORD) {
+    closeAdminModal();
+    showResults();
+  } else {
+    errEl.textContent = '❌ Incorrect password. Please try again.';
+    document.getElementById('adminPassInput').value = '';
+    document.getElementById('adminPassInput').focus();
+  }
+}
+// Close modal on overlay click
+document.getElementById('adminModal').addEventListener('click', function(e) {
+  if (e.target === this) closeAdminModal();
+});
+
+// ─── RESULTS PAGE ───
+function showResults() {
+  const totalVotes = boyVotesTotal + girlVotesTotal;
+
+  // Summary
+  const summaryEl = document.getElementById('results-summary');
+  summaryEl.innerHTML = `
+    <div class="summary-row"><span>Total Students</span><span>${TOTAL_STUDENTS}</span></div>
+    <div class="summary-row"><span>Total Votes Cast</span><span>${totalVotes}</span></div>
+    <div class="summary-row"><span>👦 Boy Votes</span><span>${boyVotesTotal}</span></div>
+    <div class="summary-row"><span>👧 Girl Votes</span><span>${girlVotesTotal}</span></div>
+    <div class="summary-row"><span>Turnout</span><span>${totalVotes > 0 ? Math.round(totalVotes/TOTAL_STUDENTS*100) : 0}%</span></div>
+  `;
+
+  // Boys results
+  renderCategoryResults('results-boys', BOY_CANDIDATES, boyVotesTotal);
+  // Girls results
+  renderCategoryResults('results-girls', GIRL_CANDIDATES, girlVotesTotal);
+
+  // Hide steps, show results
+  document.getElementById('stepsBar').classList.add('hidden');
+  showPage('page-results');
+  window.scrollTo(0,0);
+}
+
+function renderCategoryResults(containerId, candidates, categoryTotal) {
+  const el = document.getElementById(containerId);
+
+  // Sort by votes descending
+  const sorted = [...candidates].sort((a, b) => voteCount[b.roll] - voteCount[a.roll]);
+  const maxVotes = sorted.length > 0 ? voteCount[sorted[0].roll] : 0;
+
+  let html = '';
+  sorted.forEach((c, i) => {
+    const votes = voteCount[c.roll];
+    const pct = categoryTotal > 0 ? Math.round(votes / categoryTotal * 100) : 0;
+    const barW = maxVotes > 0 ? Math.round(votes / maxVotes * 100) : 0;
+    const isWinner = i === 0 && votes > 0;
+
+    html += `
+      <div class="result-row ${isWinner ? 'winner' : ''}">
+        <div class="result-bar-bg" style="width:${barW}%"></div>
+        <div class="result-rank">${isWinner ? '👑' : (i + 1)}</div>
+        <div style="flex:1;z-index:1;">
+          <div class="result-name">${c.name}</div>
+          <div class="result-adm">Sl. ${c.sl} · Adm: ${c.roll}</div>
+        </div>
+        <div class="result-count">${votes}</div>
+        <div class="result-pct">${pct}%</div>
+      </div>
+    `;
   });
 
-  function loadData() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch(e) {}
-    return { voted: [], boyVotes: {}, girlVotes: {} };
-  }
+  el.innerHTML = html || '<div style="color:var(--muted);font-size:0.85rem;padding:10px;">No votes recorded yet.</div>';
+}
 
-  function saveData(d) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); } catch(e) {}
-  }
+function closeResults() {
+  document.getElementById('stepsBar').classList.remove('hidden');
+  setSteps(1);
+  showPage('page-voter');
+  window.scrollTo(0,0);
+}
 
-  let DATA = loadData();
-
-  function showAlert(msg, type) {
-    const el = document.getElementById("alert-box");
-    const icon = type === "error"
-      ? `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`
-      : `<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`;
-    el.innerHTML = icon + `<span>${msg}</span>`;
-    el.className = `alert visible alert-${type}`;
-    clearTimeout(window._at);
-    if (type === "success") window._at = setTimeout(() => el.classList.remove("visible"), 4000);
-  }
-
-  function submitVote() {
-    const roll = parseInt(document.getElementById("roll-input").value);
-    const boy = document.getElementById("boy-select").value;
-    const girl = document.getElementById("girl-select").value;
-
-    if (!roll || roll < 1 || roll > TOTAL_STUDENTS) {
-      showAlert("Please enter a valid roll number between 1 and " + TOTAL_STUDENTS + ".", "error"); return;
-    }
-    if (!boy) { showAlert("Please select a boy representative.", "error"); return; }
-    if (!girl) { showAlert("Please select a girl representative.", "error"); return; }
-    if (DATA.voted.includes(roll)) {
-      showAlert(`Roll number ${roll} has already voted. Each student may only vote once.`, "error"); return;
-    }
-
-    DATA.voted.push(roll);
-    DATA.boyVotes[boy] = (DATA.boyVotes[boy] || 0) + 1;
-    DATA.girlVotes[girl] = (DATA.girlVotes[girl] || 0) + 1;
-    saveData(DATA);
-
-    document.getElementById("roll-input").value = "";
-    document.getElementById("boy-select").value = "";
-    document.getElementById("girl-select").value = "";
-
-    showAlert(`Vote recorded for roll number ${roll}. Thank you!`, "success");
-    refresh();
-  }
-
-  function renderBars(containerId, candidates, votes, colors) {
-    const el = document.getElementById(containerId);
-    const maxV = Math.max(...candidates.map(c => votes[c] || 0), 1);
-    const topV = Math.max(...candidates.map(c => votes[c] || 0));
-    el.innerHTML = candidates.map((c, i) => {
-      const v = votes[c] || 0;
-      const pct = Math.round((v / maxV) * 100);
-      const leading = v > 0 && v === topV;
-      return `<div class="candidate-row">
-        <span class="c-name">${c}${leading ? '<span class="leading-badge">leading</span>' : ''}</span>
-        <div class="c-bar-wrap"><div class="c-bar" style="width:${pct}%;background:${colors[i]};"></div></div>
-        <span class="c-votes">${v}</span>
-      </div>`;
-    }).join("");
-  }
-
-  <!--function refresh() {
-    const voted = DATA.voted.length;
-    const pct = Math.round((voted / TOTAL_STUDENTS) * 100);
-
-    document.getElementById("progress-fill").style.width = pct + "%";
-    document.getElementById("voted-count").textContent = voted;
-    document.getElementById("s-voted").textContent = voted;
-    document.getElementById("s-left").textContent = TOTAL_STUDENTS - voted;
-    document.getElementById("s-pct").textContent = pct + "%";
-
-    renderBars("boy-results", BOY_CANDIDATES, DATA.boyVotes, BOY_COLORS);
-    renderBars("girl-results", GIRL_CANDIDATES, DATA.girlVotes, GIRL_COLORS);-->
-
-    // Chips
-    const chips = document.getElementById("voter-chips");
-    chips.innerHTML = Array.from({length: TOTAL_STUDENTS}, (_, i) => {
-      const r = i + 1;
-      return `<div class="chip${DATA.voted.includes(r) ? " voted" : ""}" title="Roll ${r}">${r}</div>`;
-    }).join("");
-  }
-
-  function switchTab(id, btn) {
-    document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    document.getElementById("tab-" + id).classList.add("active");
-    btn.classList.add("active");
-  }
-
-  function checkPin() {
-    const pin = document.getElementById("pin-input").value;
-    if (pin === ADMIN_PIN) {
-      document.getElementById("admin-locked-ui").style.display = "none";
-      document.getElementById("admin-open-ui").style.display = "block";
-    } else {
-      showAlert("Incorrect PIN. Try again.", "error");
-      document.getElementById("pin-input").value = "";
-    }
-  }
-
-  function resetElection() {
-    if (!confirm("Reset all votes? This cannot be undone.")) return;
-    DATA = { voted: [], boyVotes: {}, girlVotes: {} };
-    saveData(DATA);
-    document.getElementById("admin-locked-ui").style.display = "block";
-    document.getElementById("admin-open-ui").style.display = "none";
-    document.getElementById("pin-input").value = "";
-    showAlert("Election has been reset successfully.", "success");
-    refresh();
-  }
-
-  refresh();
+// Init counter
+updateCounter();
 </script>
 </body>
 </html>
